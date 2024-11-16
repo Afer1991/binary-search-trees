@@ -8,75 +8,70 @@ class Node {
 
 class Tree {
   constructor(arr) {
-    this.root = buildTree(sortArray(arr), 0, sortArray(arr).length - 1);
+    this.root = this.buildTree(this.sortArray(arr), 0, this.sortArray(arr).length - 1);
   }
 
-  print() {
-    prettyPrint(this.root);
+  print(node = this.root, prefix = "", isLeft = true) {
+    if (node === null) {
+      return;
+    };
+
+    if (node.right !== null) {
+      this.print(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+    };
+
+    console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
+
+    if (node.left !== null) {
+      this.print(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+    };
   }
 
-  insert(value) {
-    insertItem(this.root, value);
+  sortArray(arr) {
+    const sortedArr = [...new Set(arr)].sort((a, b) => {
+      if (a > b) {
+        return 1;
+      } else if (a < b) {
+        return -1;
+      } else {
+        return 0;
+      };
+    });
+
+    return sortedArr;
+  }
+
+  buildTree(arr, start, end) {
+    if (start > end) {
+      return null;
+    } else {
+      const mid = Math.floor((start + end) / 2);
+      const root = new Node(arr[mid]);
+
+      root.left = this.buildTree(arr, start, mid - 1);
+      root.right = this.buildTree(arr, mid + 1, end);
+
+      return root;
+    };
+  }
+
+
+  insert(value, root = this.root) {
+    if (root === null) {
+      return new Node(value);
+    };
+
+    if (root.data === value) {
+      return root;
+    };
+
+    if (root.data > value) {
+      root.left = this.insert(value, root.left);
+    } else if (root.data < value) {
+      root.right = this.insert(value, root.right);
+    };
+
+    return root;
   }
 }
 
-const buildTree = (arr, start, end) => {
-  if (start > end) {
-    return null;
-  } else {
-    const mid = Math.floor((start + end) / 2);
-    const root = new Node(arr[mid]);
-
-    root.left = buildTree(arr, start, mid - 1);
-    root.right = buildTree(arr, mid + 1, end);
-
-    return root;
-  };
-};
-
-const prettyPrint = (node, prefix = "", isLeft = true) => {
-  if (node === null) {
-    return;
-  };
-  if (node.right !== null) {
-    prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
-  };
-  console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
-  if (node.left !== null) {
-    prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
-  };
-};
-
-const sortArray = (arr) => {
-  const sortedArr = arr.sort((a, b) => {
-    if (a > b) {
-      return 1;
-    } else if (a < b) {
-      return -1;
-    } else {
-      return 0;
-    }
-  });
-
-  const removeDupes = [...new Set(sortedArr)];
-
-  return removeDupes;
-};
-
-const insertItem = (root, value) => {
-  if (root === null) {
-    return new Node(value);
-  };
-
-  if (root.data === value) {
-    return root;
-  };
-
-  if (root.data > value) {
-    root.left = insertItem(root.left, value);
-  } else if (root.data < value) {
-    root.right = insertItem(root.right, value);
-  };
-
-  return root;
-};
