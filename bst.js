@@ -14,6 +14,10 @@ class Tree {
   print() {
     prettyPrint(this.root);
   }
+
+  insert(value) {
+    insertItem(this.root, value);
+  }
 }
 
 const buildTree = (arr, start, end) => {
@@ -57,4 +61,22 @@ const sortArray = (arr) => {
   const removeDupes = [...new Set(sortedArr)];
 
   return removeDupes;
+};
+
+const insertItem = (root, value) => {
+  if (root === null) {
+    return new Node(value);
+  };
+
+  if (root.data === value) {
+    return root;
+  };
+
+  if (root.data > value) {
+    root.left = insertItem(root.left, value);
+  } else if (root.data < value) {
+    root.right = insertItem(root.right, value);
+  };
+
+  return root;
 };
