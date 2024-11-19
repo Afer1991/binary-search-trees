@@ -55,7 +55,6 @@ class Tree {
     };
   }
 
-
   insert(value, root = this.root) {
     if (root === null) {
       return new Node(value);
@@ -71,6 +70,42 @@ class Tree {
       root.right = this.insert(value, root.right);
     };
 
+    return root;
+  }
+
+  deleteItem(value, root = this.root) {
+          
+    const nodeReplacement = (node) => {
+      node = node.right;
+      while (node !== null && node.left !== null) {
+        node = node.left;
+      };
+      return node;
+    };
+
+    if (root === null) {
+      return root;
+    };
+
+    if (root.data > value) {
+      root.left = this.deleteItem(value, root.left);
+    } else if (root.data < value) {
+      root.right = this.deleteItem(value, root.right);
+    } else {
+
+      if (root.left === null) {
+        return root.right;
+      };
+
+      if (root.right === null) {
+        return root.left;
+      };
+
+      let node = nodeReplacement(root);
+      root.data = node.data;
+      root.right = this.deleteItem(node.data, root.right);
+
+    };
     return root;
   }
 
