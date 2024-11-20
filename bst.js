@@ -124,4 +124,34 @@ class Tree {
       return this.find(value, root.right);
     };
   }
+
+  levelOrder(callback, root = this.root) {
+    if (callback instanceof Function) {
+      if (root === null) {
+        return;
+      };
+
+      const queue = new Array();
+      queue.push(root);
+      
+      while(queue.length !== 0) {
+        callback(queue[0]);
+        
+        if (queue[0].left !== null) {
+          queue.push(queue[0].left);
+        };
+
+        if (queue[0].right !== null) {
+          queue.push(queue[0].right);
+        };
+
+        queue.shift();
+
+      };
+
+    } else {
+      throw new Error("Argument is not a function");
+    };
+  }
 }
+    
