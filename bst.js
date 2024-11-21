@@ -203,4 +203,20 @@ class Tree {
 
     return Math.max(this.height(node.left), this.height(node.right)) + 1;
   }
+
+  depth(node = this.root, root = this.root) {
+    if (node === null || root === null) {
+      return null;
+    };
+
+    if (node === root) {
+      return 0;
+    };
+
+    if (root.data > node.data) {
+      return this.depth(node, root.left) + 1;
+    } else {
+      return this.depth(node, root.right) + 1;
+    };
+  }
 }
