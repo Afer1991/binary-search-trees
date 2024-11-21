@@ -219,4 +219,14 @@ class Tree {
       return this.depth(node, root.right) + 1;
     };
   }
+
+  isBalanced() {
+    const hghtDiff = Math.abs(this.height(this.root.left) - this.height(this.root.right));
+    
+    if (hghtDiff <= 1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
