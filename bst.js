@@ -181,4 +181,18 @@ class Tree {
       throw new Error("Argument is not a function");
     };
   }
+
+  postOrder(callback, root = this.root) {
+    if (callback instanceof Function) {
+      if (root === null) {
+        return;
+      };
+      
+      this.postOrder(callback, root.left);
+      this.postOrder(callback, root.right);
+      callback(root);
+    } else {
+      throw new Error("Argument is not a function");
+    };
+  }
 }
