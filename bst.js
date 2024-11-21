@@ -195,4 +195,12 @@ class Tree {
       throw new Error("Argument is not a function");
     };
   }
+
+  height(node = this.root) {
+    if (node === null) {
+      return -1;
+    };
+
+    return Math.max(this.height(node.left), this.height(node.right)) + 1;
+  }
 }
