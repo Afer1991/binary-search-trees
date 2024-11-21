@@ -229,4 +229,22 @@ class Tree {
       return false;
     }
   }
+
+  rebalance() {
+    if (!this.isBalanced()) {
+      const newTree = new Array();
+
+      const returnNodeData = (node) => {
+        newTree.push(node.data);
+      };
+
+      this.inOrder(returnNodeData);
+
+      this.root = this.buildTree(newTree, 0, newTree.length - 1);
+
+      return this.root;
+    } else {
+      return null;
+    };
+  }
 }
