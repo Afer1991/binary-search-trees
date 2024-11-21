@@ -120,7 +120,7 @@ class Tree {
 
     if (root.data > value) {
       return this.find(value, root.left);
-    } else if (root.data < value) {
+    } else {
       return this.find(value, root.right);
     };
   }
